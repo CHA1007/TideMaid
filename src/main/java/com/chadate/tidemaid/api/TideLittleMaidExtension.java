@@ -1,13 +1,12 @@
-package com.chadate.tidecompat.api;
+package com.chadate.tidemaid.api;
 
-import com.chadate.tidecompat.task.TaskTideFishing;
+import com.chadate.tidemaid.task.TaskTideFishing;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 
 /**
  * Tide兼容MOD扩展实现
- * 用于向女仆MOD注册Tide钓鱼任务
  */
 @LittleMaidExtension
 public class TideLittleMaidExtension implements ILittleMaid {

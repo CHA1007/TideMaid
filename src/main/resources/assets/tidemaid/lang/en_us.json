@@ -1,0 +1,6 @@
+{
+  "entity.tidemaid.tide_maid_fishing_hook": "Fishing Hook",
+  "task.tidemaid.tide_fishing": "Tide Fishing",
+  "task.tidemaid.tide_fishing.desc": "Maid will use fishing rod to catch special Tide fish from various water bodies.",
+  "task.tidemaid.tide_fishing.condition.has_fishing_rod": "Hold Fishing Rod"
+}

@@ -1,7 +1,6 @@
-package com.chadate.tidecompat.task;
+package com.chadate.tidemaid.task;
 
-import com.chadate.tidecompat.TideTouhoulittlemaidCompat;
-import com.chadate.tidecompat.ai.TideMaidAdvancedFishingAI;
+import com.chadate.tidemaid.TideMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.task.FunctionCallSwitchResult;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.ride.MaidRideFindWaterTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidFindSitTask;
@@ -22,8 +21,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+/**
+ * Tide 钓鱼任务
+ */
 public class TaskTideFishing extends TaskFishing {
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(TideTouhoulittlemaidCompat.MOD_ID, "tide_fishing");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(TideMaid.MOD_ID, "tide_fishing");
 
     @Override
     public @NotNull ResourceLocation getUid() {
@@ -35,7 +37,7 @@ public class TaskTideFishing extends TaskFishing {
         return TideItems.MIDAS_FISHING_ROD.getDefaultInstance();
     }
 
-    @Nullable
+    @Nullable 
     @Override
     public SoundEvent getAmbientSound(@NotNull EntityMaid maid) {
         return InitSounds.MAID_IDLE.get();
@@ -43,15 +45,12 @@ public class TaskTideFishing extends TaskFishing {
 
     @Override
     public @NotNull List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(@NotNull EntityMaid maid) {
-        return Lists.newArrayList(
-                Pair.of(5, new MaidFindSitTask(0.6f)),
-                Pair.of(6, TideMaidAdvancedFishingAI.create())
-        );
+        return Lists.newArrayList(Pair.of(5, new MaidFindSitTask(0.6f)));
     }
 
     @Override
     public @NotNull List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createRideBrainTasks(@NotNull EntityMaid maid) {
-        return Lists.newArrayList(Pair.of(5, new MaidRideFindWaterTask(6, 3)));
+        return Lists.newArrayList(Pair.of(5, new MaidRideFindWaterTask(6, 64)));
     }
 
     @Override
@@ -67,6 +66,6 @@ public class TaskTideFishing extends TaskFishing {
 
     @Override
     public @NotNull String getMaidActionSummary() {
-        return "Use fishing rod to fish with Tide mechanics";
+        return "Fishing with Tide mod fishing rods in water, lava, or void environments";
     }
 }

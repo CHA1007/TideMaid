@@ -1,0 +1,6 @@
+{
+  "entity.tidemaid.tide_maid_fishing_hook": "浮漂",
+  "task.tidemaid.tide_fishing": "潮汐钓鱼",
+  "task.tidemaid.tide_fishing.desc": "女仆将使用鱼竿从各种水体中钓取特殊的潮汐鱼类。",
+  "task.tidemaid.tide_fishing.condition.has_fishing_rod": "主手持有钓鱼竿"
+}

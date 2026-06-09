@@ -1,7 +1,7 @@
-package com.chadate.tidecompat.init;
+package com.chadate.tidemaid.init;
 
-import com.chadate.tidecompat.TideTouhoulittlemaidCompat;
-import com.chadate.tidecompat.entity.TideMaidFishingHook;
+import com.chadate.tidemaid.TideMaid;
+import com.chadate.tidemaid.entity.TideMaidFishingHook;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -11,11 +11,11 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 /**
- * TideCompat 实体注册
+ * TideMaid 实体注册
  */
 public class TideEntities {
     private static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
-            DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, TideTouhoulittlemaidCompat.MOD_ID);
+            DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, TideMaid.MOD_ID);
 
     public static final Supplier<EntityType<TideMaidFishingHook>> TIDE_MAID_FISHING_HOOK =
             ENTITY_TYPES.register("tide_maid_fishing_hook", () ->
