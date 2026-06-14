@@ -1,6 +1,8 @@
 package com.chadate.tidemaid.entity;
 
+import com.chadate.tidemaid.data.MaidFishingData;
 import com.chadate.tidemaid.init.TideEntities;
+import com.chadate.tidemaid.mixin.TideFishingHookAccessor;
 import com.chadate.tidemaid.task.TaskTideFishing;
 import com.chadate.tidemaid.util.TideFishingUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -24,6 +26,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
@@ -95,6 +98,16 @@ public class TideMaidFishingHook extends MaidFishingHook {
         List<ItemStack> tideLoot = rollTideLoot(serverLevel, rod);
 
         if (!tideLoot.isEmpty()) {
+            if (maid.getOwner() instanceof ServerPlayer serverPlayer) {
+                for (ItemStack stack : tideLoot) {
+                    if (TideUtils.isJournalFish(stack)) {
+                        MaidFishingData data = MaidFishingData.getOrCreate(serverPlayer, maid.getUUID());
+                        data.logCatch(stack, serverLevel);
+                        data.syncTo(serverPlayer);
+                    }
+                }
+            }
+
             if (rod.is(TideItems.DIAMOND_FISHING_ROD)) {
                 serverLevel.addFreshEntity(new ExperienceOrb(
                         serverLevel, this.getX(), this.getY() + 0.5, this.getZ() + 0.5,
@@ -252,26 +265,15 @@ public class TideMaidFishingHook extends MaidFishingHook {
     }
 
     /**
-     * 使用反射创建虚拟 TideFishingHook 实例
+     * 使用 Mixin Accessor 创建虚拟 TideFishingHook 实例
      */
     private static TideFishingHook createVirtualHook(ServerLevel level, int luck, ItemStack rod) {
-        try {
-            var constructor = TideFishingHook.class.getDeclaredConstructor(
-                    net.minecraft.world.entity.EntityType.class,
-                    net.minecraft.world.level.Level.class,
-                    int.class,
-                    int.class,
-                    net.minecraft.world.item.ItemStack.class);
-            constructor.setAccessible(true);
-            return constructor.newInstance(
-                    com.li64.tide.registries.TideEntityTypes.FISHING_BOBBER,
-                    level,
-                    luck,
-                    0,
-                    rod);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create virtual TideFishingHook", e);
-        }
+        return TideFishingHookAccessor.invokeInit(
+                com.li64.tide.registries.TideEntityTypes.FISHING_BOBBER,
+                level,
+                luck,
+                0,
+                rod);
     }
 
     /**

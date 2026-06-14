@@ -3,7 +3,8 @@
   "package": "com.chadate.tidemaid.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "FishingContextMixin"
+    "FishingContextMixin",
+    "TideFishingHookAccessor"
   ],
   "client": [],
   "injectors": {

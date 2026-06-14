@@ -2,5 +2,20 @@
   "entity.tidemaid.tide_maid_fishing_hook": "Fishing Hook",
   "task.tidemaid.tide_fishing": "Tide Fishing",
   "task.tidemaid.tide_fishing.desc": "Maid will use fishing rod to catch special Tide fish from various water bodies.",
-  "task.tidemaid.tide_fishing.condition.has_fishing_rod": "Hold Fishing Rod"
+  "task.tidemaid.tide_fishing.condition.has_fishing_rod": "Hold Fishing Rod",
+  "gui.tidemaid.button.fishing_journal": "Fishing Journal",
+  "gui.tidemaid.button.fishing_journal.desc": " -§a View your fish collection",
+  "gui.tidemaid.screen.maid_fishing_journal": "Maid Fishing Journal",
+  "maid_journal.description.missing": "No records for this maid yet",
+  "maid_journal.rarity.title": "Maid Catch Rarity",
+  "maid_journal.rarity.common": "Common",
+  "maid_journal.rarity.uncommon": "Uncommon",
+  "maid_journal.rarity.rare": "Rare",
+  "maid_journal.rarity.very_rare": "Very Rare",
+  "maid_journal.rarity.epic": "Epic",
+  "maid_journal.rarity.legendary": "Legendary",
+  "maid_journal.info.stats.total": "Maid Caught: %s",
+  "maid_journal.info.stats.first": "Maid First Caught: %s",
+  "maid_journal.info.stats.largest": "Maid Largest: %s",
+  "maid_journal.info.stats.smallest": "Maid Smallest: %s"
 }

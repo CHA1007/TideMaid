@@ -5,6 +5,8 @@ import com.chadate.tidemaid.client.model.TideFishingModel;
 import com.chadate.tidemaid.client.renderer.TideMaidFishingHookRenderer;
 import com.chadate.tidemaid.init.TideEntities;
 import com.chadate.tidemaid.init.TideFishingInit;
+import com.chadate.tidemaid.network.TideMaidMessages;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -18,6 +20,7 @@ public class TideMaid {
 
     public TideMaid(IEventBus modEventBus) {
         TideFishingInit.init(modEventBus);
+        modEventBus.addListener(TideMaidMessages::register);
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
             modEventBus.addListener(this::onClientSetup);
@@ -27,7 +30,7 @@ public class TideMaid {
     }
 
     private void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(TideMaidClient::registerModelProperties);
+        event.enqueueWork(TideMaidClient::init);
     }
 
     private void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -36,5 +39,9 @@ public class TideMaid {
 
     private void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(TideFishingModel.MODEL_LOCATION, TideFishingModel::createBodyLayer);
+    }
+
+    public static ResourceLocation resource(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }

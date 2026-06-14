@@ -2,5 +2,20 @@
   "entity.tidemaid.tide_maid_fishing_hook": "浮漂",
   "task.tidemaid.tide_fishing": "潮汐钓鱼",
   "task.tidemaid.tide_fishing.desc": "女仆将使用鱼竿从各种水体中钓取特殊的潮汐鱼类。",
-  "task.tidemaid.tide_fishing.condition.has_fishing_rod": "主手持有钓鱼竿"
+  "task.tidemaid.tide_fishing.condition.has_fishing_rod": "主手持有钓鱼竿",
+  "gui.tidemaid.button.fishing_journal": "百鱼全书",
+  "gui.tidemaid.button.fishing_journal.desc": " -§a 查看已捕获的鱼类图鉴",
+  "gui.tidemaid.screen.maid_fishing_journal": "女仆百鱼全书",
+  "maid_journal.description.missing": "该女仆暂无相关记录",
+  "maid_journal.rarity.title": "女仆捕获稀有度",
+  "maid_journal.rarity.common": "普通",
+  "maid_journal.rarity.uncommon": "不凡",
+  "maid_journal.rarity.rare": "稀有",
+  "maid_journal.rarity.very_rare": "非常稀有",
+  "maid_journal.rarity.epic": "史诗",
+  "maid_journal.rarity.legendary": "传说",
+  "maid_journal.info.stats.total": "女仆捕获次数: %s",
+  "maid_journal.info.stats.first": "女仆首次捕获: %s",
+  "maid_journal.info.stats.largest": "女仆最大捕获: %s",
+  "maid_journal.info.stats.smallest": "女仆最小捕获: %s"
 }
