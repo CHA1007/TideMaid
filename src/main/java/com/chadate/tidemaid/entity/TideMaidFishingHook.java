@@ -225,12 +225,12 @@ public class TideMaidFishingHook extends MaidFishingHook {
         FishingContext context = new FishingContext(
                 level,
                 virtualHook,
+                rod,
                 level.getRandom(),
                 this.position(),
                 pos,
                 this.luck,
                 currentMedium.id().getPath(),
-                rod,
                 level.getBiome(pos),
                 TideUtils.findClosestNonWaterBiome(level, pos, 12, 2).orElse(level.getBiome(pos)),
                 level.dimension(),

@@ -121,7 +121,7 @@ public class MaidFishProfile implements Renderable {
                 .filter(cond -> cond instanceof DimensionsCondition)
                 .findFirst().map(cond -> (DimensionsCondition) cond);
         dimensionsCondition.ifPresent(condition -> {
-            if (DimensionsComponent.shouldCreate(condition)) {
+            if (DimensionsComponent.shouldCreate(condition, data.conditions())) {
                 builder.add(new DimensionsComponent(condition.getDimensions()));
             }
         });

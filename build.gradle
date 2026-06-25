@@ -135,7 +135,7 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
     compileOnly "maven.modrinth:touhou-little-maid:1.5.3-neoforge+mc1.21.1"
-    compileOnly "maven.modrinth:tide:2.0.3"
+    compileOnly "maven.modrinth:tide:2.1"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
