@@ -59,6 +59,13 @@ public class MaidFishingData {
         }
     }
 
+    /**
+     * 清理指定玩家的服务端缓存
+     */
+    public static void clearPlayerCache(UUID playerUuid) {
+        SERVER_CACHE.entrySet().removeIf(entry -> entry.getKey().startsWith(playerUuid.toString() + "_"));
+    }
+
     private static final String NBT_TAG = "TideMaidFishingData";
 
     /** 女仆的 UUID */
@@ -176,7 +183,7 @@ public class MaidFishingData {
     }
 
     /**
-     * 检查鱼是否已解锁（通过 ItemStack）
+     * 检查鱼是否已解锁
      */
     public boolean isFishUnlocked(ItemStack stack) {
         return fishData.entrySet().stream()

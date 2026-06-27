@@ -2,6 +2,7 @@ package com.chadate.tidemaid.client.gui.screens;
 
 import com.chadate.tidemaid.data.MaidFishingData;
 import com.chadate.tidemaid.network.ReadMaidProfileMsg;
+import com.chadate.tidemaid.network.RequestMaidFishingDataMsg;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.li64.tide.Tide;
 import com.li64.tide.client.gui.screens.FishyNoteScreen;
@@ -73,7 +74,7 @@ public class MaidFishingJournal extends Screen {
 
         // 向服务端请求同步女仆钓鱼数据
         Objects.requireNonNull(Minecraft.getInstance().getConnection()).send(
-                new ServerboundCustomPayloadPacket(new com.chadate.tidemaid.network.RequestMaidFishingDataMsg(maid.getUUID())));
+                new ServerboundCustomPayloadPacket(new RequestMaidFishingDataMsg(maid.getUUID())));
 
         this.fishByPage = paginate(TideData.FISH.get().valueStream()
                 .filter(FishData::hasJournalEntry)

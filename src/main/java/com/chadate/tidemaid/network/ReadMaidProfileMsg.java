@@ -2,10 +2,13 @@ package com.chadate.tidemaid.network;
 
 import com.chadate.tidemaid.TideMaid;
 import com.chadate.tidemaid.data.MaidFishingData;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +41,12 @@ public record ReadMaidProfileMsg(UUID maidUuid, int fishId) implements CustomPac
 
     public static void handle(ReadMaidProfileMsg message, Player player) {
         if (!(player instanceof ServerPlayer serverPlayer)) return;
+        
+        // 验证女仆是否存在且属于该玩家
+        Entity entity = ((ServerLevel) serverPlayer.level()).getEntity(message.maidUuid);
+        if (!(entity instanceof EntityMaid maid)) return;
+        if (!maid.isOwnedBy(serverPlayer)) return;
+        
         MaidFishingData data = MaidFishingData.getOrCreate(serverPlayer, message.maidUuid);
         Item fish = Item.byId(message.fishId);
         data.markAsRead(new ItemStack(fish));

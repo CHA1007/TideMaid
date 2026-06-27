@@ -66,7 +66,13 @@ public class TideMaidClient {
                 TideItems.CRYSTAL_FISHING_ROD,
                 TideItems.DIAMOND_FISHING_ROD,
                 TideItems.NETHERITE_FISHING_ROD,
-                TideItems.MIDAS_FISHING_ROD
+                TideItems.MIDAS_FISHING_ROD,
+                TideItems.ECHO_FISHING_ROD,
+                TideItems.PRISMARINE_FISHING_ROD,
+                TideItems.SUNFLOWER_FISHING_ROD,
+                TideItems.VILLAGE_FISHING_ROD,
+                TideItems.BLAZING_FISHING_ROD,
+                TideItems.HONEYCOMB_FISHING_ROD
         };
 
         for (Item rod : rods) {

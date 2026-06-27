@@ -2,10 +2,12 @@ package com.chadate.tidemaid.network;
 
 import com.chadate.tidemaid.TideMaid;
 import com.chadate.tidemaid.data.MaidFishingData;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,6 +33,12 @@ public record RequestMaidFishingDataMsg(UUID maidUuid) implements CustomPacketPa
 
     public static void handle(RequestMaidFishingDataMsg message, Player player) {
         if (!(player instanceof ServerPlayer serverPlayer)) return;
+        
+        // 验证女仆是否存在且属于该玩家
+        Entity entity = ((net.minecraft.server.level.ServerLevel) serverPlayer.level()).getEntity(message.maidUuid);
+        if (!(entity instanceof EntityMaid maid)) return;
+        if (!maid.isOwnedBy(serverPlayer)) return;
+        
         MaidFishingData data = MaidFishingData.getOrCreate(serverPlayer, message.maidUuid);
         data.syncTo(serverPlayer);
     }

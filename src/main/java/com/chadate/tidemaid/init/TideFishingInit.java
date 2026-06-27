@@ -1,6 +1,7 @@
 package com.chadate.tidemaid.init;
 
 import com.chadate.tidemaid.fishing.TideFishingType;
+import com.chadate.tidemaid.fishing.rod.RodBehaviorRegistry;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.fishing.FishingTypeManager;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -17,6 +18,7 @@ public class TideFishingInit {
 
     private static void setup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
+            RodBehaviorRegistry.init();
             new FishingTypeManager().addFishingType(new TideFishingType());
         });
     }

@@ -1,13 +1,12 @@
 package com.chadate.tidemaid.api;
 
+import com.chadate.tidemaid.entity.chatbubble.ItemChatBubbleData;
 import com.chadate.tidemaid.task.TaskTideFishing;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.ChatBubbleRegister;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 
-/**
- * Tide兼容MOD扩展实现
- */
 @LittleMaidExtension
 public class TideLittleMaidExtension implements ILittleMaid {
 
@@ -16,5 +15,10 @@ public class TideLittleMaidExtension implements ILittleMaid {
     @Override
     public void addMaidTask(TaskManager manager) {
         manager.add(TIDE_FISHING_TASK);
+    }
+
+    @Override
+    public void registerChatBubble(ChatBubbleRegister register) {
+        register.register(ItemChatBubbleData.ID, new ItemChatBubbleData.ItemChatSerializer());
     }
 }

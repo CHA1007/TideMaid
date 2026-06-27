@@ -3,6 +3,7 @@
   "task.tidemaid.tide_fishing": "潮汐钓鱼",
   "task.tidemaid.tide_fishing.desc": "女仆将使用鱼竿从各种水体中钓取特殊的潮汐鱼类。",
   "task.tidemaid.tide_fishing.condition.has_fishing_rod": "主手持有钓鱼竿",
+  "task.tidemaid.tide_fishing.summary": "使用潮汐鱼竿在水、岩浆或虚空中钓鱼",
   "gui.tidemaid.button.fishing_journal": "百鱼全书",
   "gui.tidemaid.button.fishing_journal.desc": " -§a 查看已捕获的鱼类图鉴",
   "gui.tidemaid.screen.maid_fishing_journal": "女仆百鱼全书",

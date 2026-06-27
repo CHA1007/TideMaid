@@ -66,6 +66,6 @@ public class TaskTideFishing extends TaskFishing {
 
     @Override
     public @NotNull String getMaidActionSummary() {
-        return "Fishing with Tide mod fishing rods in water, lava, or void environments";
+        return "task.tidemaid.tide_fishing.summary";
     }
 }

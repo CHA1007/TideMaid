@@ -5,6 +5,7 @@ import com.chadate.tidemaid.entity.TideMaidFishingHook;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.li64.tide.Tide;
 import com.li64.tide.data.rods.CustomRodManager;
+import com.li64.tide.registries.TideItems;
 import com.li64.tide.registries.items.FishingBobberItem;
 import com.li64.tide.registries.items.FishingHookItem;
 import com.li64.tide.registries.items.FishingLineItem;
@@ -114,7 +115,42 @@ public class TideMaidFishingHookRenderer extends EntityRenderer<TideMaidFishingH
 
         poseStack.popPose();
 
+        //咬钩时在女仆头顶渲染预览物品
+        renderEchoRodPreview(hook, partialTick, poseStack, buffer, packedLight, maid, rod);
+
         super.render(hook, entityYaw, partialTick, poseStack, buffer, packedLight);
+    }
+
+    /**
+     * ECHO_FISHING_ROD：在女仆头顶渲染咬钩预览物品
+     */
+    private void renderEchoRodPreview(TideMaidFishingHook hook, float partialTick, PoseStack poseStack,
+                                       MultiBufferSource buffer, int packedLight, EntityMaid maid, ItemStack rod) {
+        if (!rod.is(TideItems.ECHO_FISHING_ROD)) return;
+
+        ItemStack previewItem = hook.getEntityData().get(TideMaidFishingHook.DATA_PREVIEW_ITEM);
+        if (!TideMaidFishingHook.hasValidPreview(previewItem)) return;
+
+        double maidX = Mth.lerp(partialTick, maid.xo, maid.getX());
+        double maidY = Mth.lerp(partialTick, maid.yo, maid.getY()) + maid.getEyeHeight() + 0.6;
+        double maidZ = Mth.lerp(partialTick, maid.zo, maid.getZ());
+
+        poseStack.pushPose();
+        poseStack.translate(maidX, maidY, maidZ);
+
+        // 始终面向玩家
+        poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+
+        float bobOffset = Mth.sin(hook.level().getGameTime() * 0.08f) * 0.08f;
+        poseStack.translate(0, bobOffset, 0);
+
+        // 缩放渲染物品
+        poseStack.scale(0.7f, 0.7f, 0.7f);
+        itemRenderer.renderStatic(previewItem,
+                ItemDisplayContext.FIXED, packedLight, OverlayTexture.NO_OVERLAY,
+                poseStack, buffer, hook.level(), hook.getId());
+
+        poseStack.popPose();
     }
 
     /**

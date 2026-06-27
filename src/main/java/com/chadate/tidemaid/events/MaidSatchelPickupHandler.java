@@ -4,21 +4,19 @@ import com.chadate.tidemaid.TideMaid;
 import com.chadate.tidemaid.data.MaidFishingData;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidPickupEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.li64.tide.data.item.SatchelContents;
 import com.li64.tide.data.item.TideItemData;
 import com.li64.tide.registries.items.FishSatchelItem;
 import com.li64.tide.util.TideUtils;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.BundleContents;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -74,36 +72,18 @@ public class MaidSatchelPickupHandler {
             // 只存入已打开的钓鱼背包
             if (!TideItemData.FISH_SATCHEL_OPENED.getOrDefault(satchel, false)) continue;
 
-            BundleContents contents = satchel.get(DataComponents.BUNDLE_CONTENTS);
-            List<ItemStack> items = contents != null ? new ArrayList<>((Collection) contents.items()) : new ArrayList<>();
+            // 使用 Tide 的 SatchelContents 数据结构
+            SatchelContents contents = TideItemData.SATCHEL_CONTENTS.getOrDefault(satchel, new SatchelContents());
+            SatchelContents.Mutable mutable = new SatchelContents.Mutable(contents);
             
-            int currentSize = items.size();
-            if (currentSize >= 64) continue;
+            int currentSize = contents.size();
+            if (currentSize >= SatchelContents.MAX_STACKS) continue;
 
-            int canStore = Math.min(maxToStore - storedCount, 64 - currentSize);
+            int canStore = Math.min(maxToStore - storedCount, SatchelContents.MAX_STACKS - currentSize);
             
             for (int j = 0; j < canStore; j++) {
                 ItemStack toStore = stack.copyWithCount(1);
-                boolean inserted = false;
-
-                for (ItemStack existing : items) {
-                    if (ItemStack.isSameItemSameComponents(toStore, existing) 
-                            && existing.getCount() < existing.getMaxStackSize()) {
-                        int canAdd = Math.min(existing.getMaxStackSize() - existing.getCount(), 1);
-                        if (canAdd > 0) {
-                            existing.grow(canAdd);
-                            inserted = true;
-                            break;
-                        }
-                    }
-                }
-                
-                if (!inserted && items.size() < 64) {
-                    items.add(toStore);
-                    inserted = true;
-                }
-                
-                if (inserted) {
+                if (mutable.tryInsert(toStore)) {
                     storedCount++;
                 } else {
                     break;
@@ -111,7 +91,7 @@ public class MaidSatchelPickupHandler {
             }
             
             if (storedCount > 0) {
-                satchel.set(DataComponents.BUNDLE_CONTENTS, new BundleContents(items));
+                TideItemData.SATCHEL_CONTENTS.set(satchel, mutable.toImmutable());
             }
         }
 

@@ -1,7 +1,10 @@
 package com.chadate.tidemaid.util;
 
 import com.li64.tide.data.fishing.mediums.FishingMedium;
+import com.li64.tide.data.item.TideItemData;
+import com.li64.tide.data.rods.BaitContents;
 import com.li64.tide.registries.items.TideFishingRodItem;
+import com.li64.tide.util.BaitUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -56,5 +59,51 @@ public final class TideFishingUtil {
         } else {
             return pos.getY() >= level.getMinBuildHeight() && pos.getY() <= level.getMinBuildHeight() + 5;
         }
+    }
+
+    /**
+     * 检查鱼竿上是否有提供运气加成的鱼饵
+     */
+    public static boolean hasLuckBait(ItemStack rod) {
+        BaitContents contents = TideItemData.BAIT_CONTENTS.get(rod);
+        if (contents == null) return false;
+        
+        for (ItemStack bait : contents.items()) {
+            if (!bait.isEmpty() && BaitUtils.getBaitLuck(bait) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 检查鱼竿上是否有提供宝箱概率的鱼饵
+     */
+    public static boolean hasCrateBait(ItemStack rod) {
+        BaitContents contents = TideItemData.BAIT_CONTENTS.get(rod);
+        if (contents == null) return false;
+        
+        for (ItemStack bait : contents.items()) {
+            if (!bait.isEmpty() && BaitUtils.getCrateChance(bait) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 获取鱼竿上所有鱼饵的总宝箱概率
+     */
+    public static int getCombinedCrateChance(ItemStack rod) {
+        BaitContents contents = TideItemData.BAIT_CONTENTS.get(rod);
+        if (contents == null) return 0;
+        
+        int totalChance = 0;
+        for (ItemStack bait : contents.items()) {
+            if (!bait.isEmpty()) {
+                totalChance += BaitUtils.getCrateChance(bait);
+            }
+        }
+        return totalChance;
     }
 }

@@ -1,6 +1,9 @@
 package com.chadate.tidemaid.fishing;
 
 import com.chadate.tidemaid.entity.TideMaidFishingHook;
+import com.chadate.tidemaid.fishing.rod.RodBehavior;
+import com.chadate.tidemaid.fishing.rod.RodBehaviorRegistry;
+import com.chadate.tidemaid.fishing.rod.RodStats;
 import com.chadate.tidemaid.task.TaskTideFishing;
 import com.chadate.tidemaid.util.TideFishingUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.fishing.IFishingType;
@@ -57,9 +60,12 @@ public class TideFishingType implements IFishingType {
         int luck = EnchantmentHelper.getFishingLuckBonus(serverLevel, rod, maid);
         int speed = (int) (EnchantmentHelper.getFishingTimeReduction(serverLevel, rod, maid) / 5f);
 
-        if (rod.is(TideItems.GOLDEN_FISHING_ROD) || rod.is(TideItems.MIDAS_FISHING_ROD)) {
-            luck += 1;
-        }
+        // 使用策略模式应用鱼竿特殊属性加成
+        RodBehavior behavior = RodBehaviorRegistry.getBehavior(rod);
+        RodStats rodStats = new RodStats();
+        behavior.modifyStats(rodStats, level, maid, rod);
+        luck += rodStats.getLuckBonus();
+        speed += rodStats.getSpeedBonus();
 
         ItemStack line = CustomRodManager.getLine(rod);
         if (line.is(TideItems.GOLDEN_LINE)) {
